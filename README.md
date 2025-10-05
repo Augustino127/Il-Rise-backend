@@ -1,184 +1,184 @@
 # IleRise Backend API
 
-Backend Node.js/Express pour le jeu éducatif d'agriculture IleRise.
+Node.js/Express backend for the educational agriculture game IleRise.
 
 ## Technologies
 
-- **Node.js** v20+ avec ES Modules
-- **Express.js** - Framework web
-- **MongoDB** avec Mongoose - Base de données
-- **JWT** - Authentification
-- **Bcrypt** - Hachage des mots de passe
-- **Joi** - Validation des données
-- **Helmet** - Sécurité HTTP
-- **express-rate-limit** - Protection contre les abus
+- **Node.js** v20+ with ES Modules
+- **Express.js** - Web framework
+- **MongoDB** with Mongoose - Database
+- **JWT** - Authentication
+- **Bcrypt** - Password hashing
+- **Joi** - Data validation
+- **Helmet** - HTTP security
+- **express-rate-limit** - Abuse protection
 
-## Structure du projet
+## Project Structure
 
 ```
 ilerise-backend/
 ├── config/              # Configuration (database, jwt)
-├── controllers/         # Logique métier
+├── controllers/         # Business logic
 ├── middleware/          # Middlewares (auth, validation, rate-limit)
-├── models/              # Schémas MongoDB
-│   ├── User.js         # Utilisateurs
-│   ├── Progress.js     # Progression des joueurs
-│   ├── History.js      # Historique des actions
-│   ├── Culture.js      # Cultures agricoles
-│   ├── KnowledgeCard.js # Cartes de connaissance
-│   └── Achievement.js  # Succès/Achievements
-├── routes/              # Routes API
-├── services/            # Services métier
-│   ├── simulationEngine.js      # Moteur de simulation agricole
-│   └── competenceCalculator.js  # Calcul des compétences
-├── server.js            # Point d'entrée
-├── .env.example         # Variables d'environnement exemple
+├── models/              # MongoDB schemas
+│   ├── User.js         # Users
+│   ├── Progress.js     # Player progress
+│   ├── History.js      # Action history
+│   ├── Culture.js      # Crops
+│   ├── KnowledgeCard.js # Knowledge cards
+│   └── Achievement.js  # Achievements
+├── routes/              # API routes
+├── services/            # Business services
+│   ├── simulationEngine.js      # Agricultural simulation engine
+│   └── competenceCalculator.js  # Skill calculator
+├── server.js            # Entry point
+├── .env.example         # Example environment variables
 └── package.json
 ```
 
 ## Installation
 
-1. Cloner le dépôt et naviguer dans le dossier backend:
+1. Clone the repository and navigate to the backend folder:
 ```bash
 cd C:\Projet\ilerise-backend
 ```
 
-2. Installer les dépendances:
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-3. Créer le fichier `.env` à partir de `.env.example`:
+3. Create the `.env` file from `.env.example`:
 ```bash
 cp .env.example .env
 ```
 
-4. Configurer les variables d'environnement dans `.env`:
+4. Configure environment variables in `.env`:
 ```env
 PORT=5000
 NODE_ENV=development
 MONGODB_URI=mongodb://localhost:27017/ilerise
-JWT_SECRET=votre_secret_jwt
-JWT_REFRESH_SECRET=votre_secret_refresh
+JWT_SECRET=your_jwt_secret
+JWT_REFRESH_SECRET=your_refresh_secret
 FRONTEND_URL=http://localhost:3000
 ```
 
-5. Démarrer MongoDB localement ou utiliser MongoDB Atlas
+5. Start MongoDB locally or use MongoDB Atlas
 
-6. Lancer le serveur:
+6. Launch the server:
 ```bash
 npm start          # Production
-npm run dev        # Développement avec nodemon
+npm run dev        # Development with nodemon
 ```
 
 ## API Endpoints
 
-### Authentification (`/api/auth`)
+### Authentication (`/api/auth`)
 
-- `POST /api/auth/register` - Créer un compte
-- `POST /api/auth/login` - Se connecter
-- `POST /api/auth/refresh` - Rafraîchir le token
+- `POST /api/auth/register` - Create an account
+- `POST /api/auth/login` - Log in
+- `POST /api/auth/refresh` - Refresh token
 
-### Utilisateur (`/api/user`)
+### User (`/api/user`)
 
-- `GET /api/user/profile` - Profil utilisateur avec stats
-- `PATCH /api/user/profile` - Modifier le profil
-- `GET /api/user/lives` - Statut des vies
+- `GET /api/user/profile` - User profile with stats
+- `PATCH /api/user/profile` - Update profile
+- `GET /api/user/lives` - Lives status
 
-### Progression (`/api/progress`)
+### Progress (`/api/progress`)
 
-- `GET /api/progress/all` - Toute la progression
-- `POST /api/progress/update` - Mettre à jour après une partie
-- `GET /api/progress/stats` - Statistiques globales
+- `GET /api/progress/all` - All progress
+- `POST /api/progress/update` - Update after a game
+- `GET /api/progress/stats` - Global statistics
 
-### Historique (`/api/history`)
+### History (`/api/history`)
 
-- `GET /api/history/all` - Historique complet
-- `POST /api/history/add` - Ajouter une entrée
-- `GET /api/history/stats` - Statistiques d'historique
+- `GET /api/history/all` - Full history
+- `POST /api/history/add` - Add an entry
+- `GET /api/history/stats` - History statistics
 
-### Cultures (`/api/culture`)
+### Crops (`/api/culture`)
 
-- `GET /api/culture/all` - Liste des cultures
-- `GET /api/culture/:id` - Détails d'une culture
-- `POST /api/culture/create` - Créer une culture (admin)
-- `PATCH /api/culture/:id` - Modifier une culture (admin)
-- `DELETE /api/culture/:id` - Supprimer une culture (admin)
+- `GET /api/culture/all` - List of crops
+- `GET /api/culture/:id` - Crop details
+- `POST /api/culture/create` - Create a crop (admin)
+- `PATCH /api/culture/:id` - Update a crop (admin)
+- `DELETE /api/culture/:id` - Delete a crop (admin)
 
-### Jeu (`/api/game`)
+### Game (`/api/game`)
 
-- `POST /api/game/simulate` - Lancer une simulation (consomme une vie)
-- `POST /api/game/validate` - Valider les paramètres (sans consommer de vie)
+- `POST /api/game/simulate` - Run a simulation (consumes a life)
+- `POST /api/game/validate` - Validate parameters (no life consumed)
 
-## Système de compétences
+## Skill System
 
-Le jeu suit 5 compétences agricoles:
+The game tracks 5 agricultural skills:
 
-1. **Water** (Gestion de l'eau) - Irrigation et besoins hydriques
-2. **NPK** (Fertilisation) - Azote, Phosphore, Potassium
-3. **Soil** (Gestion du sol) - pH et qualité du sol
-4. **Rotation** (Rotation des cultures) - Succession et associations
-5. **NASA** (Données satellitaires) - Interprétation de données NASA
+1. **Water** (Water management) - Irrigation and water needs
+2. **NPK** (Fertilization) - Nitrogen, Phosphorus, Potassium
+3. **Soil** (Soil management) - pH and soil quality
+4. **Rotation** (Crop rotation) - Succession and associations
+5. **NASA** (Satellite data) - NASA data interpretation
 
-Les compétences progressent de 0 à 100 en fonction des performances.
+Skills progress from 0 to 100 based on performance.
 
-## Moteur de simulation
+## Simulation Engine
 
-Le backend inclut un moteur de simulation agricole inspiré de DSSAT qui calcule:
+The backend includes an agricultural simulation engine inspired by DSSAT that calculates:
 
-- Rendement des cultures basé sur les paramètres agronomiques
-- Score de performance (0-100)
-- Feedback détaillé par paramètre
-- Gains de compétences
+- Crop yield based on agronomic parameters
+- Performance score (0-100)
+- Detailed feedback per parameter
+- Skill gains
 
-### Paramètres de simulation
+### Simulation Parameters
 
-- Eau (mm/saison)
-- Azote, Phosphore, Potassium (kg/ha)
-- pH du sol (0-14)
-- Température (°C)
+- Water (mm/season)
+- Nitrogen, Phosphorus, Potassium (kg/ha)
+- Soil pH (0-14)
+- Temperature (°C)
 
-## Système de vies
+## Life System
 
-- Chaque joueur a **5 vies maximum**
-- Une vie est consommée par partie jouée
-- Les vies se régénèrent automatiquement toutes les **30 minutes** (configurable)
-- Le système vérifie et régénère les vies à chaque connexion
+- Each player has **5 maximum lives**
+- One life is consumed per game played
+- Lives regenerate automatically every **30 minutes** (configurable)
+- The system checks and regenerates lives on each login
 
-## Sécurité
+## Security
 
-- Mots de passe hachés avec bcrypt (12 rounds)
-- Authentification JWT avec tokens access et refresh
-- Rate limiting sur toutes les routes critiques
-- Validation Joi sur toutes les entrées
-- Helmet.js pour les headers de sécurité
-- CORS configuré
+- Passwords hashed with bcrypt (12 rounds)
+- JWT authentication with access and refresh tokens
+- Rate limiting on all critical routes
+- Joi validation on all inputs
+- Helmet.js for security headers
+- CORS configured
 
-## Variables d'environnement
+## Environment Variables
 
-| Variable | Description | Défaut |
-|----------|-------------|--------|
-| `PORT` | Port du serveur | 5000 |
-| `NODE_ENV` | Environnement | development |
-| `MONGODB_URI` | URI MongoDB | mongodb://localhost:27017/ilerise |
-| `JWT_SECRET` | Secret pour access tokens | - |
-| `JWT_REFRESH_SECRET` | Secret pour refresh tokens | - |
-| `JWT_ACCESS_EXPIRY` | Durée access token | 15m |
-| `JWT_REFRESH_EXPIRY` | Durée refresh token | 7d |
-| `FRONTEND_URL` | URL frontend pour CORS | http://localhost:3000 |
-| `LIFE_REGEN_INTERVAL` | Régénération des vies (minutes) | 30 |
-| `BCRYPT_ROUNDS` | Rounds de hachage | 12 |
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PORT` | Server port | 5000 |
+| `NODE_ENV` | Environment | development |
+| `MONGODB_URI` | MongoDB URI | mongodb://localhost:27017/ilerise |
+| `JWT_SECRET` | Secret for access tokens | - |
+| `JWT_REFRESH_SECRET` | Secret for refresh tokens | - |
+| `JWT_ACCESS_EXPIRY` | Access token duration | 15m |
+| `JWT_REFRESH_EXPIRY` | Refresh token duration | 7d |
+| `FRONTEND_URL` | Frontend URL for CORS | http://localhost:3000 |
+| `LIFE_REGEN_INTERVAL` | Life regeneration (minutes) | 30 |
+| `BCRYPT_ROUNDS` | Hashing rounds | 12 |
 
-## Développement
+## Development
 
-### Lancer en mode développement
+### Run in development mode
 ```bash
 npm run dev
 ```
 
-### Structure d'une réponse API
+### API Response Structure
 
-Succès:
+Success:
 ```json
 {
   "success": true,
@@ -187,7 +187,7 @@ Succès:
 }
 ```
 
-Erreur:
+Error:
 ```json
 {
   "success": false,
@@ -196,7 +196,7 @@ Erreur:
 }
 ```
 
-### Codes HTTP utilisés
+### HTTP Codes Used
 
 - `200` - OK
 - `201` - Created
@@ -208,19 +208,19 @@ Erreur:
 - `429` - Too Many Requests (rate limit)
 - `500` - Internal Server Error
 
-## Prochaines étapes
+## Next Steps
 
-1. **Peupler la base de données** - Créer un script de seed avec des cultures réalistes
-2. **Tests** - Ajouter Jest pour les tests unitaires et d'intégration
-3. **Documentation API** - Swagger/OpenAPI
-4. **Logs** - Winston ou Morgan pour les logs
+1. **Populate the database** - Create a seed script with realistic crops
+2. **Tests** - Add Jest for unit and integration tests
+3. **API Documentation** - Swagger/OpenAPI
+4. **Logs** - Winston or Morgan for logging
 5. **CI/CD** - GitHub Actions
-6. **Déploiement** - Heroku, Railway, ou Render
+6. **Deployment** - Heroku, Railway, or Render
 
 ## Support
 
-Pour toute question ou problème, consulter la documentation ou créer une issue.
+For any questions or issues, consult the documentation or create an issue.
 
 ---
 
-Développé avec Node.js + Express + MongoDB pour IleRise 🌱
+Developed with Node.js + Express + MongoDB for IleRise 🌱
