@@ -33,6 +33,26 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  coins: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  coinsEarned: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  coinsSpent: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  selectedLocation: {
+    type: String,
+    default: 'Parakou',
+    trim: true
+  },
   createdAt: {
     type: Date,
     default: Date.now
@@ -86,6 +106,32 @@ userSchema.methods.useLife = function() {
     return true;
   }
   return false;
+};
+
+// Method to add coins
+userSchema.methods.addCoins = function(amount) {
+  if (amount > 0) {
+    this.coins += amount;
+    this.coinsEarned += amount;
+    return true;
+  }
+  return false;
+};
+
+// Method to spend coins
+userSchema.methods.spendCoins = function(amount) {
+  if (amount > 0 && this.coins >= amount) {
+    this.coins -= amount;
+    this.coinsSpent += amount;
+    return true;
+  }
+  return false;
+};
+
+// Method to update selected location
+userSchema.methods.updateLocation = function(location) {
+  this.selectedLocation = location;
+  return true;
 };
 
 // Remove password from JSON output

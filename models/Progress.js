@@ -68,6 +68,41 @@ const progressSchema = new mongoose.Schema({
       default: 0
     }
   },
+  competenceStats: {
+    water: {
+      totalGames: { type: Number, default: 0 },
+      goodScores: { type: Number, default: 0 }
+    },
+    npk: {
+      totalGames: { type: Number, default: 0 },
+      goodScores: { type: Number, default: 0 }
+    },
+    ph: {
+      totalGames: { type: Number, default: 0 },
+      goodScores: { type: Number, default: 0 }
+    },
+    rotation: {
+      levelsCompleted: { type: Number, default: 0 }
+    },
+    nasa: {
+      nasaHelpUsed: { type: Number, default: 0 }
+    }
+  },
+  unlockedKnowledgeCards: [{
+    cardId: { type: String, required: true },
+    unlockedAt: { type: Date, default: Date.now }
+  }],
+  completedLevels: [{
+    type: String
+  }],
+  highScores: {
+    type: Map,
+    of: {
+      score: Number,
+      stars: Number
+    },
+    default: {}
+  },
   lastPlayed: {
     type: Date,
     default: Date.now

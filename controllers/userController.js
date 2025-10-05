@@ -140,6 +140,70 @@ export const getLives = async (req, res) => {
 };
 
 /**
+ * Use a life (deduct one life from user)
+ */
+export const useLife = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Régénérer les vies avant utilisation
+    user.regenerateLives();
+
+    // Vérifier si l'utilisateur a des vies
+    if (user.lives <= 0) {
+      const regenInterval = (parseInt(process.env.LIFE_REGEN_INTERVAL) || 30) * 60 * 1000;
+      const timeSinceLastRegen = Date.now() - user.lastLifeRegen.getTime();
+      const timeToNextLife = regenInterval - (timeSinceLastRegen % regenInterval);
+
+      return res.status(403).json({
+        success: false,
+        message: 'No lives remaining',
+        data: {
+          lives: 0,
+          timeToNextLife: Math.ceil(timeToNextLife / 1000)
+        }
+      });
+    }
+
+    // Utiliser une vie
+    const lifeUsed = user.useLife();
+
+    if (lifeUsed) {
+      await user.save();
+
+      res.status(200).json({
+        success: true,
+        message: 'Life used successfully',
+        data: {
+          lives: user.lives,
+          maxLives: 5,
+          lastLifeRegen: user.lastLifeRegen
+        }
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to use life'
+      });
+    }
+  } catch (error) {
+    console.error('Use life error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error using life',
+      error: error.message
+    });
+  }
+};
+
+/**
  * Helper function to calculate average competences
  */
 const calculateAverageCompetences = (progressData) => {
@@ -166,4 +230,4 @@ const calculateAverageCompetences = (progressData) => {
   };
 };
 
-export default { getProfile, updateProfile, getLives };
+export default { getProfile, updateProfile, getLives, useLife };

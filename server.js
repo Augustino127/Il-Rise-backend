@@ -9,6 +9,8 @@ import progressRoutes from './routes/progress.js';
 import historyRoutes from './routes/history.js';
 import cultureRoutes from './routes/culture.js';
 import gameRoutes from './routes/game.js';
+import syncRoutes from './routes/sync.js';
+import farmRoutes from './routes/farm.js';
 
 // Load environment variables
 dotenv.config();
@@ -45,6 +47,8 @@ app.use('/api/progress', progressRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/culture', cultureRoutes);
 app.use('/api/game', gameRoutes);
+app.use('/api/sync', syncRoutes);
+app.use('/api/farm', farmRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {
@@ -81,7 +85,7 @@ const startServer = async () => {
 ║     IleRise Backend API Server         ║
 ╠════════════════════════════════════════╣
 ║  Port: ${PORT.toString().padEnd(32)}   ║
-║  Environment: ${(process.env.NODE_ENV || 'development').padEnd(23)} ║
+║  Environment: ${(process.env.NODE_ENV ||  'development').padEnd(23)} ║
 ║  Status: Running ✓                     ║
 ╚════════════════════════════════════════╝
       `);

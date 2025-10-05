@@ -1,5 +1,5 @@
 import express from 'express';
-import { getProfile, updateProfile, getLives } from '../controllers/userController.js';
+import { getProfile, updateProfile, getLives, useLife } from '../controllers/userController.js';
 import { verifyToken } from '../middleware/auth.js';
 import { validateRequest, updateProfileSchema } from '../middleware/validation.js';
 
@@ -32,5 +32,12 @@ router.patch(
  * @access  Private
  */
 router.get('/lives', getLives);
+
+/**
+ * @route   POST /api/user/use-life
+ * @desc    Use one life (deduct from user)
+ * @access  Private
+ */
+router.post('/use-life', useLife);
 
 export default router;
