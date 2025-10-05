@@ -4,8 +4,7 @@ const historySchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
-    index: true
+    required: true
   },
   action: {
     type: String,
@@ -26,8 +25,7 @@ const historySchema = new mongoose.Schema({
   },
   timestamp: {
     type: Date,
-    default: Date.now,
-    index: true
+    default: Date.now
   }
 }, {
   timestamps: true

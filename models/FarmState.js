@@ -113,8 +113,7 @@ const farmStateSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-    unique: true,
-    index: true
+    unique: true
   },
 
   // Informations de localisation
@@ -179,8 +178,7 @@ const farmStateSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index pour optimiser les requêtes
-farmStateSchema.index({ userId: 1 });
+// Index pour optimiser les requêtes (userId already has unique index)
 farmStateSchema.index({ 'location.city': 1 });
 
 // Méthode pour mettre à jour le temps de jeu

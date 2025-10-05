@@ -189,8 +189,7 @@ const cultureSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index for efficient queries
-cultureSchema.index({ name: 1 });
+// Index for efficient queries (name already has unique index)
 cultureSchema.index({ category: 1, difficulty: 1 });
 cultureSchema.index({ active: 1 });
 

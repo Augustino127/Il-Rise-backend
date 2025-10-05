@@ -4,14 +4,12 @@ const progressSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
-    index: true
+    required: true
   },
   cropId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Culture',
-    required: true,
-    index: true
+    required: true
   },
   level: {
     type: Number,
