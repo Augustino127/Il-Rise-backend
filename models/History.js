@@ -16,7 +16,18 @@ const historySchema = new mongoose.Schema({
       'crop_mastered',
       'competence_improved',
       'perfect_score',
-      'streak_achieved'
+      'streak_achieved',
+      // Farm actions
+      'farm_initialized',
+      'farm_saved',
+      'farm_reset',
+      'farm_action_plow',
+      'farm_action_plant',
+      'farm_action_water',
+      'farm_action_fertilize',
+      'farm_action_weed',
+      'farm_action_pesticide',
+      'farm_harvest'
     ]
   },
   details: {

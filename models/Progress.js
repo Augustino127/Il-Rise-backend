@@ -9,7 +9,8 @@ const progressSchema = new mongoose.Schema({
   cropId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Culture',
-    required: true
+    required: false,
+    default: null
   },
   level: {
     type: Number,
@@ -118,7 +119,8 @@ const progressSchema = new mongoose.Schema({
 });
 
 // Compound index for efficient user+crop queries
-progressSchema.index({ userId: 1, cropId: 1 }, { unique: true });
+// Unique index only when cropId is not null (sparse index)
+progressSchema.index({ userId: 1, cropId: 1 }, { unique: true, sparse: true });
 
 // Method to update progress after a game
 progressSchema.methods.updateAfterGame = function(score, competenceGains = {}) {
