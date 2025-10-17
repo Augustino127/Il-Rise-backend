@@ -91,4 +91,7 @@ const calculateTimeToNextLife = (user) => {
   return Math.ceil(timeToNextLife / 1000); // Return in seconds
 };
 
-export default { verifyToken, checkLives };
+// Alias pour compatibilité avec différentes conventions
+export const protect = verifyToken;
+
+export default { verifyToken, checkLives, protect };
