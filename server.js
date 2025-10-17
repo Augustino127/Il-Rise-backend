@@ -11,6 +11,7 @@ import cultureRoutes from './routes/culture.js';
 import gameRoutes from './routes/game.js';
 import syncRoutes from './routes/sync.js';
 import farmRoutes from './routes/farm.js';
+import gameStateRoutes from './routes/gameState.js';
 
 // Load environment variables
 dotenv.config();
@@ -65,6 +66,7 @@ app.use('/api/culture', cultureRoutes);
 app.use('/api/game', gameRoutes);
 app.use('/api/sync', syncRoutes);
 app.use('/api/farm', farmRoutes);
+app.use('/api/game-state', gameStateRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {
